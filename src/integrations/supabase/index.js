@@ -99,7 +99,7 @@ export const useEvents = () => useQuery({
 
 export const useEvent = (id) => useQuery({
     queryKey: ['events', id],
-    queryFn: () => fromSupabase(supabase.from('events').select('*').eq('id', id).single())),
+    queryFn: () => fromSupabase(supabase.from('events').select('*').eq('id', id).single()),
 });
 
 export const useAddEvent = () => {
