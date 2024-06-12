@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, VStack, Text, Select, Box, Heading, SimpleGrid, Card, CardBody } from "@chakra-ui/react";
+import { Container, VStack, Text, Select, Box, Heading, SimpleGrid, Card, CardBody, Button } from "@chakra-ui/react";
 import { useJobs } from "../integrations/supabase/index.js";
+import { useSupabaseAuth } from "../integrations/supabase/auth.jsx";
 
 const Index = () => {
+  const { session, logout } = useSupabaseAuth();
   const [selectedCategory, setSelectedCategory] = useState("");
   const navigate = useNavigate();
   const { data: jobs, error, isLoading } = useJobs();
@@ -49,6 +51,11 @@ const Index = () => {
             </Card>
           ))}
         </SimpleGrid>
+      {session ? (
+          <Button onClick={logout}>Logout</Button>
+        ) : (
+          <Button onClick={() => navigate('/login')}>Login</Button>
+        )}
       </VStack>
     </Container>
   );
