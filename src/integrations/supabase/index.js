@@ -181,7 +181,7 @@ export const useAdmins = () => useQuery({
 
 export const useAdmin = (id) => useQuery({
     queryKey: ['admins', id],
-    queryFn: () => fromSupabase(supabase.from('admins').select('*').eq('id', id).single())),
+    queryFn: () => fromSupabase(supabase.from('admins').select('*').eq('id', id).single()),
 });
 
 export const useAddAdmin = () => {

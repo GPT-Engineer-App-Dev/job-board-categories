@@ -49,8 +49,19 @@ export const SupabaseAuthProviderInner = ({ children }) => {
     setLoading(false);
   };
 
+  const adminLogin = async (email, password) => {
+    const { user, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      console.error('Admin login failed:', error);
+      return null;
+    }
+    setSession(user);
+    queryClient.invalidateQueries('user');
+    return user;
+  };
+
   return (
-    <SupabaseAuthContext.Provider value={{ session, loading, logout }}>
+    <SupabaseAuthContext.Provider value={{ session, loading, logout, adminLogin }}>
       {children}
     </SupabaseAuthContext.Provider>
   );
