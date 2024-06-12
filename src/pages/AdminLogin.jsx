@@ -23,7 +23,7 @@ const AdminLogin = () => {
     <Container maxW="container.sm" py={10}>
       <VStack spacing={6} align="stretch">
         <Heading as="h1" size="2xl" textAlign="center">
-          Admin Login
+          Administrator Login
         </Heading>
         {error && <Text color="red.500">{error}</Text>}
         <Input
