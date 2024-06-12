@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, VStack, Text, Select, Box, Heading, SimpleGrid, Card, CardBody } from "@chakra-ui/react";
-
-const jobs = [
-  { id: 1, title: "Frontend Developer", category: "Engineering" },
-  { id: 2, title: "Product Manager", category: "Product" },
-  { id: 3, title: "UI/UX Designer", category: "Design" },
-  { id: 4, title: "Backend Developer", category: "Engineering" },
-  { id: 5, title: "Product Designer", category: "Design" },
-];
+import { useJobs } from "../integrations/supabase/index.js";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const navigate = useNavigate();
+  const { data: jobs, error, isLoading } = useJobs();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading jobs: {error.message}</div>;
+  }
 
   const filteredJobs = selectedCategory
-    ? jobs.filter((job) => job.category === selectedCategory)
+    ? jobs.filter((job) => job.job_area === selectedCategory)
     : jobs;
 
   return (
@@ -40,9 +42,9 @@ const Index = () => {
             <Card key={job.id} borderWidth="1px" borderRadius="lg" onClick={() => navigate(`/job/${job.id}`)} cursor="pointer">
               <CardBody>
                 <Heading as="h3" size="md">
-                  {job.title}
+                  {job.jobs_title}
                 </Heading>
-                <Text mt={2}>{job.category}</Text>
+                <Text mt={2}>{job.job_area}</Text>
               </CardBody>
             </Card>
           ))}
