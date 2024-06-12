@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, VStack, Text, Select, Box, Heading, SimpleGrid, Card, CardBody } from "@chakra-ui/react";
 
 const jobs = [
@@ -11,6 +12,7 @@ const jobs = [
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const navigate = useNavigate();
 
   const filteredJobs = selectedCategory
     ? jobs.filter((job) => job.category === selectedCategory)
@@ -35,7 +37,7 @@ const Index = () => {
         </Select>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
           {filteredJobs.map((job) => (
-            <Card key={job.id} borderWidth="1px" borderRadius="lg">
+            <Card key={job.id} borderWidth="1px" borderRadius="lg" onClick={() => navigate(`/job/${job.id}`)} cursor="pointer">
               <CardBody>
                 <Heading as="h3" size="md">
                   {job.title}
